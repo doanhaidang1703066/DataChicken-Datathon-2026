@@ -4,61 +4,71 @@ import os
 
 class DataLoader:
     """
-    Load toàn bộ dữ liệu + chuẩn hóa schema.
+    Loads and standardizes all raw data tables from the dataset.
+
+    Handles column renaming, date parsing, and basic type coercion so that
+    all downstream classes receive clean, consistently named DataFrames.
     """
 
-    def __init__(self, raw_data_path="data/raw"):
+    def __init__(self, raw_data_path: str):
         self.raw_data_path = raw_data_path
 
-    def _load_csv(self, filename, date_cols=None):
-        path = os.path.join(self.raw_data_path, filename)
-
-        if not os.path.exists(path):
-            print(f"⚠️ Missing file: {filename}")
-            return None
-
-        try:
-            df = pd.read_csv(path, parse_dates=date_cols)
-
-            # Normalize column names
-            df.columns = [col.strip().lower() for col in df.columns]
-
-            return df
-
-        except Exception as e:
-            print(f"❌ Error loading {filename}: {e}")
-            return None
-
-    def load_all_data(self):
-        print("🚀 Loading raw data...")
-
+    def load_all_data(self) -> dict:
         data = {}
-
-        # MASTER
-        data['products'] = self._load_csv('products.csv')
-        data['customers'] = self._load_csv('customers.csv', ['signup_date'])
-        data['promotions'] = self._load_csv('promotions.csv', ['start_date', 'end_date'])
-        data['geography'] = self._load_csv('geography.csv')
-
-        # TRANSACTION
-        data['orders'] = self._load_csv('orders.csv', ['order_date'])
-        data['order_items'] = self._load_csv('order_items.csv')
-        data['payments'] = self._load_csv('payments.csv')
-        data['shipments'] = self._load_csv('shipments.csv', ['ship_date', 'delivery_date'])
-        data['returns'] = self._load_csv('returns.csv', ['return_date'])
-        data['reviews'] = self._load_csv('reviews.csv', ['review_date'])
-
-        # ANALYTICAL
-        data['sales'] = self._load_csv('sales.csv', ['Date'])
-
-        # OPERATIONAL
-        data['inventory'] = self._load_csv('inventory.csv', ['snapshot_date'])
-        data['web_traffic'] = self._load_csv('web_traffic.csv', ['date'])
-
-        # SAMPLE SUBMISSION (ONLY FOR SUBMISSION, NOT USED IN BACKTEST)
-        data['sample_submission'] = self._load_csv('sample_submission.csv')
-
-        loaded = sum(v is not None for v in data.values())
-        print(f"✅ Loaded {loaded} tables")
-
+        data['sales']       = self._load_sales()
+        data['promotions']  = self._load_promotions()
+        data['web_traffic'] = self._load_web_traffic()
         return data
+
+    # --------------------------------------------------------------------------
+    # LOADERS
+    # --------------------------------------------------------------------------
+
+    def _load_sales(self) -> pd.DataFrame:
+        path = os.path.join(self.raw_data_path, 'sales.csv')
+        df   = pd.read_csv(path)
+
+        df.columns = df.columns.str.strip().str.lower()
+        df = df.rename(columns={
+            'date'   : 'date',
+            'revenue': 'revenue',
+            'cogs'   : 'cogs',
+        })
+
+        df['date']    = pd.to_datetime(df['date'])
+        df['revenue'] = pd.to_numeric(df['revenue'], errors='coerce').fillna(0)
+        df['cogs']    = pd.to_numeric(df['cogs'],    errors='coerce').fillna(0)
+
+        df = df.sort_values('date').reset_index(drop=True)
+
+        print(f"Sales loaded       : {len(df):,} rows | "
+              f"{df['date'].min().date()} -> {df['date'].max().date()}")
+        return df
+
+    def _load_promotions(self) -> pd.DataFrame:
+        path = os.path.join(self.raw_data_path, 'promotions.csv')
+        df   = pd.read_csv(path)
+
+        df.columns = df.columns.str.strip().str.lower()
+        df = df.rename(columns={
+            'start_date'     : 'start_date',
+            'end_date'       : 'end_date',
+            'discount_value' : 'discount_value',
+            'stackable_flag' : 'stackable_flag',
+        })
+
+        df['start_date'] = pd.to_datetime(df['start_date'])
+        df['end_date']   = pd.to_datetime(df['end_date'])
+
+        print(f"Promotions loaded  : {len(df):,} rows")
+        return df
+
+    def _load_web_traffic(self) -> pd.DataFrame:
+        path = os.path.join(self.raw_data_path, 'web_traffic.csv')
+        df   = pd.read_csv(path)
+
+        df.columns = df.columns.str.strip().str.lower()
+        df['date'] = pd.to_datetime(df['date'])
+
+        print(f"Web traffic loaded : {len(df):,} rows")
+        return df
