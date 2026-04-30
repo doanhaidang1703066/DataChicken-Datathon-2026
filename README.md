@@ -53,9 +53,10 @@ DATACHICKEN-DATATHON-2026/
 │   └── report.pdf
 ├── requirements.txt
 └── README.md
-
 ---
+```
 
+## Nội dung Notebook
 | Notebook | Mục đích |
 | :--- | :--- |
 | baseline.ipynb | File baseline gốc của chương trình |
@@ -64,7 +65,7 @@ DATACHICKEN-DATATHON-2026/
 
 ---
 
-```
+
 ## Kiến trúc mô hình
 Mô hình chính tuân theo **Ensemble method** bằng cách kết hợp các mô hình học máy và foundation model có kiến trúc khác nhau để tạo ra sự đa dạng gồm:
 
