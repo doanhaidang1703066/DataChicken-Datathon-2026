@@ -16,7 +16,7 @@
 | 1 | [`report/report.pdf`](./report/report.pdf) | toàn bộ phân tích, kết quả, methodology trong 4 trang nội dung chính |
 | 2 | [`submission/submission.csv`](./submission/submission.csv) | file nộp Kaggle, 548 dòng dự đoán, giữ đúng format `sample_submission.csv` |
 | 3 | [`notebooks/mcq-answers.ipynb`](./notebooks/mcq-answers.ipynb) | notebook chứa code và đáp án Part 1 theo đề cập nhật |
-| 4 | [`notebooks/eda.ipynb`](./notebooks/eda.ipynb) | notebook chuẩn cho Part 2, là nguồn của các section analytics trong report |
+| 4 | [`notebooks/eda.ipynb`](./notebooks/eda.ipynb) | notebook chứa code EDA của Part 2, là nguồn của các phân tích trong Báo cáo |
 | 5 | [`notebooks/vin-datathon-time-forecasting.ipynb`](./notebooks/vin-datathon-time-forecasting.ipynb) | Pipeline Part 3: feature engineering, model ensemble, walkforward backtesting, SHAP, submission export |
 | 6 | [`notebooks/time-forecasting-ablation-study.ipynb`](./notebooks/time-forecasting-ablation-study.ipynb) | Ablation Study: Bổ sung 2 Pretrained Zero-shot Foundation Model: Chronos-2 và TimesFM 2.5 |
 
@@ -43,6 +43,7 @@ DATACHICKEN-DATATHON-2026/
 │   ├── visualization.py
 ├── notebooks/
 │   ├── mcq-answers.ipynb                           #Part 1 Answers
+│   ├── eda.ipynb                                   #Part 2 EDA  
 │   ├── baseline.ipynb
 │   ├── vin-datathon-time-forecasting.ipynb         # Final Submission
 │   ├── time-forecasting-ablation-study.ipynb       # Ablation Study
@@ -50,6 +51,8 @@ DATACHICKEN-DATATHON-2026/
 │   └── submission.csv
 ├── Report/
 │   └── report.pdf
+│   └── SHAP_dashboard.png
+│   └── ...
 ├── requirements.txt
 └── README.md
 
@@ -59,6 +62,7 @@ DATACHICKEN-DATATHON-2026/
 | Notebook | Mục đích |
 | :--- | :--- |
 | mcq-answers.ipynb | File trả lời câu hỏi trắc nghiệm Part 1 |
+| eda.ipynb | File phân tích dữ liệu thăm dò (EDA) Part 2 |
 | baseline.ipynb | File baseline gốc của chương trình |
 | vin-datathon-time-forecasting.ipynb   | File model sinh final submission |
 | time-forecasting-ablation-study.ipynb  | File chứa ý tưởng cải thiện model theo hướng Foundation Model Ensemble |
