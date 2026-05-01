@@ -17,14 +17,14 @@
 | 2 | [`submission/submission.csv`](./submission/submission.csv) | file nộp Kaggle, 548 dòng dự đoán, giữ đúng format `sample_submission.csv` |
 | 3 | [`notebooks/mcq-answers.ipynb`](./notebooks/mcq-answers.ipynb) | notebook chứa code và đáp án Part 1 theo đề cập nhật |
 | 4 | [`notebooks/eda.ipynb`](./notebooks/eda.ipynb) | notebook chuẩn cho Part 2, là nguồn của các section analytics trong report |
-| 5 | [`notebooks/vin-datathon-time-forecasting.ipynb`](./notebooks/vin-datathon-time-forecasting.ipynb) | Pipeline Part 3: feature engineering, model ensembling, walkforward backtesting, SHAP, submission exporting |
+| 5 | [`notebooks/vin-datathon-time-forecasting.ipynb`](./notebooks/vin-datathon-time-forecasting.ipynb) | Pipeline Part 3: feature engineering, model ensemble, walkforward backtesting, SHAP, submission export |
 | 6 | [`notebooks/time-forecasting-ablation-study.ipynb`](./notebooks/time-forecasting-ablation-study.ipynb) | Ablation Study: Bổ sung 2 Pretrained Zero-shot Foundation Model: Chronos-2 và TimesFM 2.5 |
 
 ---
 
 ## Sơ Đồ Quan Hệ Bảng
 
-![ERD giản lược](ERD diagram.png)
+![ERD giản lược](ERD.png)
 
 ---
 
